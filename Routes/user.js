@@ -2,63 +2,95 @@ const express=require("express");
 const router=express.Router();
 const User=require("../Model/users");
 const mongoose=require("mongoose");
-const Auth = require('../Middleware/auth');
+const Auth = require('../middleware/auth');
 const multer=require("multer");
+const path = require('path');
 
-router.post("/userRegistration",(req,res)=>
-{
-    console.log(req.body);
-    var user= new User(req.body);
-    user.save();
-    res.json("success");
-})
 
-// router.post("/userRegistration",function(req,res)
+// router.post("/userRegistration",(req,res)=>
 // {
-//     res.send("Responding");
+//     console.log(req.body);
+//     var user= new User(req.body);
+//     user.save();
+//     res.json("success");
+// })
 
-//     const users = new User({
-//         userName :req.body.user_Name,
-//         userEmail :req.body.user_Email,
-//         userPassword :req.body.user_Password,
-//         userImage :req.body.user_Image,
-//         city :req.body.city,
-//         postal : req.body.postal,
-//         userAddress1 : req.body.user_Address1,
-//         userAddress2 :req.body.user_Address2
-       
-//     });
-//     console.log(users)
-//     users.save().then(result=>{
-//         console.log(result);
-//         res.status(201).json({
-//             message:"User Registred"
-//         })
-//     }).catch(err=>{
-//         res.status(500).json({
-//             error:err
-//         })
-//     })
-// });
+//FOr uploading images
+//image upload
+var storage = multer.diskStorage({
+    destination: "images",
+    filename: (req, file, callback) => {
+        let ext = path.extname(file.originalname);
+        callback(null, "userProfile" + "-" + Date.now() + ext);
+    }
+});
+
+var imageFileFilter = (req, file, cb) => {
+    if (file.originalname.match(/\.(jpg|jpeg|png|gif)$/)) {
+        return cb("Only image files accepted!!"), false;
+    }
+    cb(null, true);
+};
+
+var upload = multer({ 
+    storage: storage, 
+    fileFilter: imageFileFilter,
+     limits: { fileSize: 1000000 } 
+    });
+
+router.post("/userRegistration",upload.single('user_Image'),(req,res)=>
+{   
+    console.log(req.body)
+        var userName= req.body.userName;
+        var userEmail = req.body.userEmail;
+        var userPassword = req.body.userPassword;
+        var userImage = req.file.filename;
+        var city = req.body.city;
+        var postal = req.body.postal;
+        var userAddress1 = req.body.userAddress1;
+        var userAddress2 =req.body.userAddress2;
+        
+       var newuser = new User(
+           {
+               "userName":userName,
+               "userEmail":userEmail,
+               "userPassword":userPassword,
+                "userImage":userImage,
+               "city":city,
+               "postal":postal,
+               "userAddress1":userAddress1,
+               "userAddress2":userAddress2
+           }
+       )
+           console.log("Request------>"+newuser);
+        newuser.save().then(function(){
+       response = "User Registred sucessfully !!!";
+       console.log(response);
+       res.send(response);
+    }).catch(function(e){
+        response = "Error in Registration";
+        console.log(response);
+        res.send(response);
+    })
+});
 
 router.post("/userLogin",async function(req,res){
-    console.log("login responding")
-    console.log(req.body);
-    var logindata = new User(req.body);
+    // var logindata = new User({
+    //     userName :req.body.username,
+    //     userPassword :req.body.password,
+    // });
+    var askeduserName =req.body.username;
+    var askeduserPassword = req.body.password;
+    const users = await User.checkCredentialsDb(askeduserName,askeduserPassword);
 
-    var askeduserName =logindata.username;
-    var askeduserPassword = logindata.userpassword;
-    const users = await users.checkCredentialsDb(askeduserName,askeduserPassword);
-
-    if(users){
+    if(users!=null){
         const token = await users.generateAuthToken();
+        console.log(token);
         res.status(201).json({
             token:token,
-            users:users
+            users:users,
+            message:"Sucess"
         });
-        res.json({
-            message:"Logged in"
-        })
     }
     else{
         res.json({
@@ -76,4 +108,6 @@ router.get('/respond',function(req,res){
     res.send("responding")
     console.log("responding")
 })
+
+
 module.exports = router;

@@ -5,3 +5,4 @@ mongoose.connect("mongodb://127.0.0.1:27017/PcworlD_database",{
     useCreateIndex:true
 });
 mongoose.Promise = global.Promise;
+console.log("Database connected sucessfully !!!")

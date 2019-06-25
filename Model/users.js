@@ -2,7 +2,7 @@
 const mongoose = require("mongoose");
 const jwt = require("jsonwebtoken");
 
-const userSchema = mongoose.Schema({
+const userSchema = new mongoose.Schema({
     userName:{
         type:String
     },
@@ -36,21 +36,19 @@ const userSchema = mongoose.Schema({
     }]
 });
 
-userSchema.statics.checkCredentialsDb=async(username,password)=>
+userSchema.statics.checkCredentialsDb=async(user,pass)=>
 {
   
-    const user1=await User.findOne({userName:username,userPassword:password})
+const user1 = await Users.findOne({userEmail:user,userPassword:pass})
+    console.log(user1);
     return user1;
-
 }
 
 userSchema.methods.generateAuthToken=async function(){
     
     console.log("token");
-  
     const user=this
     const token=jwt.sign({ _id:user._id.toString()},'thisismynewcourse')
-    
     console.log(token);
     user.tokens=user.tokens.concat({token:token})
     await user.save()
