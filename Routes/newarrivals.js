@@ -15,12 +15,12 @@ var storage = multer.diskStorage({
     destination: "images",
     filename: (req, file, callback) => {
         let ext = path.extname(file.originalname);
-        callback(null, "aashish" + "-" + Date.now() + ext);
+        callback(null, "newarrivals" + "-" + Date.now() + ext);
     }
 });
 
 var imageFileFilter = (req, file, cb) => {
-    if (file.originalname.match(/\.(jpg|jpeg|png|gif)$/)) {
+    if (!file.originalname.match(/\.(jpg|jpeg|png|gif)$/)) {
         return cb("Only image files accepted!!"), false;
     }
     cb(null, true);
@@ -33,14 +33,28 @@ var upload = multer({
     });
 
 router.post("/addnewarrivals",upload.single('mainImage'),(req,res)=>{
+    console.log(req.body);
+    console.log(req.file);
     const arrivals = new newarrivals({
         productName:req.body.productName,
         productPrice: req.body.productPrice,
         Image:req.file.filename,
-        productDescription:req.body.productDescription
+        productDescription:req.body.productDescription,
+        productType:req.body.productType
         
     });
     arrivals.save();
     console.log(arrivals);
+});
+
+router.get('/displayNewArrivals',(req,res)=>{
+    console.log("Responding.............");
+    newarrivals.find().then(function(arrivalsdata){
+        res.send(arrivalsdata);
+        console.log(arrivalsdata);
+    }).catch(function(e){
+    res.send(e)
+    });
+
 })
 module.exports = router;

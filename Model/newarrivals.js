@@ -13,6 +13,9 @@ const NewArrivalsSchema = mongoose.Schema({
     },
     productDescription:{
         type:String
+    },
+    productType:{
+        type:String
     }
 
 })
