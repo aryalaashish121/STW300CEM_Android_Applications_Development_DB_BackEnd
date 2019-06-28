@@ -89,13 +89,29 @@ router.get('/displayProduct', (req, res) => {
 })
 
 router.get('/dispalDell', (req, res) => {
-    products.find(productBrand = "dell").then(function (dellproduct) {
+    console.log("dell data clicked..")
+    var productbrand = "dell";
+    products.find({ productBrand: productbrand }).then(function (dellproduct) {
         res.send(dellproduct);
         console.log("dellproduct" + dellproduct);
     }).catch(function (e) {
         res.send(e)
     });
 })
+
+router.get('/displayhp', (req, res) => {
+    console.log("hp data clicked..")
+    var productbrand = "hp";
+    products.find({ productBrand: productbrand }).then(function (hpproduct) {
+        res.send(hpproduct);
+        console.log("hp" + hpproduct);
+    }).catch(function (e) {
+        res.send(e)
+    });
+})
+
+
+
 
 //check server respond..
 router.get("/checkRespond", (req, res) => {
