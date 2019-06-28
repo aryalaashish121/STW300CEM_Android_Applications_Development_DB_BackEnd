@@ -5,8 +5,6 @@ const mongoose = require("mongoose");
 const Auth = require('../middleware/auth');
 const multer = require("multer");
 const path = require('path');
-
-
 // router.post("/userRegistration",(req,res)=>
 // {
 //     console.log(req.body);
@@ -44,6 +42,7 @@ router.post('/uploadUserImage', upload.single('imageFile'), (req, res) => {
 
 })
 
+//user registration//
 router.post("/userRegistration", (req, res) => {
     console.log(req.body)
     var userName = req.body.userName;
@@ -79,6 +78,7 @@ router.post("/userRegistration", (req, res) => {
     })
 });
 
+//user login
 router.post("/userLogin", async function (req, res) {
     // var logindata = new User({
     //     userName :req.body.username,
@@ -109,6 +109,19 @@ router.get('/this', Auth, function (req, res) {
     res.send(req.users);
 })
 
+// display all user data
+router.get('/displayUserData', (req, res) => {
+    console.log("User data Responding.............");
+    User.find().then(function (userdata) {
+        res.send(userdata);
+        console.log(userdata);
+    }).catch(function (e) {
+        res.send(e)
+    });
+
+})
+
+//check route respond
 router.get('/respond', function (req, res) {
     res.send("responding")
     console.log("responding")

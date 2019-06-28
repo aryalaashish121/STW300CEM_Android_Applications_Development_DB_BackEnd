@@ -111,6 +111,59 @@ router.get('/displayhp', (req, res) => {
 })
 
 
+//update product data
+router.put('/updateProducts/:id', function (req, res) {
+    pid = req.params.id.toString();
+    console.log(pid);
+    console.log(req.body);
+    products.findByIdAndUpdate({ _id: pid }, req.body).then(function () {
+        console.log("Product updated sucessully !!!.")
+        res.send();
+    }).catch(function (e) {
+
+    })
+});
+
+//get specific product
+router.get('/getSpecificProduct/:id', function (req, res) {
+    console.log("Get spcific product kicking ...............................")
+    pid = req.params.id.toString();
+    console.log(pid);
+    products.findById(pid).then(function (product) {
+        res.send(product);
+        console.log(product);
+    }).catch(function (e) {
+        res.send(e)
+    });
+});
+
+//update specific product
+router.put('/updateSpecificProduct/:id', function (req, res) {
+    console.log("update specific product kiking...")
+    uid = req.params.id.toString();
+    console.log(uid);
+    console.log(uid);
+    console.log(req.body);
+    products.findByIdAndUpdate({ _id: uid }, req.body).then(function () {
+        console.log("Product updated successfully.")
+        res.send();
+    }).catch(function (e) {
+
+    })
+});
+
+//delete products
+router.delete('/deletespecificProduct/:id', function (req, res) {
+    console.log("Delete Specific Product Kicking.....")
+    products.findByIdAndDelete(req.params.id).then(function () {
+        console.log("Slelected product deleted successfully.");
+        res.send();
+    }).catch(function () {
+
+    })
+})
+
+
 
 
 //check server respond..
