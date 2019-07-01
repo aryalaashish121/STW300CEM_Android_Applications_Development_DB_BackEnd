@@ -88,9 +88,10 @@ router.get('/displayProduct', (req, res) => {
 
 })
 
-router.get('/dispalDell', (req, res) => {
+router.get('/dispalDell/:id', (req, res) => {
+    productbrand = req.params.id.toString();
     console.log("dell data clicked..")
-    var productbrand = "dell";
+
     products.find({ productBrand: productbrand }).then(function (dellproduct) {
         res.send(dellproduct);
         console.log("dellproduct" + dellproduct);

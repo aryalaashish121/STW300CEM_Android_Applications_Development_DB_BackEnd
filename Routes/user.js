@@ -32,7 +32,7 @@ var imageFileFilter = (req, file, cb) => {
 
 var upload = multer({
     storage: storage,
-    fileFilter: imageFileFilter,
+    //fileFilter: imageFileFilter,
     limits: { fileSize: 1000000 }
 });
 
@@ -120,6 +120,39 @@ router.get('/displayUserData', (req, res) => {
     });
 
 })
+
+router.get('/getUserById/:id', function (req, res) {
+    console.log("Get user kicking ...............................")
+    uid = req.params.id.toString();
+    console.log(uid);
+    User.findById(uid).then(function (user) {
+        res.send(user);
+        console.log(user);
+    }).catch(function (e) {
+        res.send(e)
+    });
+});
+
+
+//user dashboard
+router.get('/getSpecificUser', Auth, function (req, res) {
+    res.send(req.user);
+    console.log(req.user);
+});
+
+//update specific user
+router.put('/updateUser/:id', function (req, res) {
+    console.log("update specific user kiking...")
+    uid = req.params.id.toString();
+    console.log("user id...................................................................." + uid)
+    console.log(req.body);
+    User.findByIdAndUpdate({ _id: uid }, req.body).then(function () {
+        console.log("Product updated successfully.")
+        res.send();
+    }).catch(function (e) {
+        console.log("error is updating..")
+    })
+});
 
 //check route respond
 router.get('/respond', function (req, res) {
