@@ -160,5 +160,16 @@ router.get('/respond', function (req, res) {
     console.log("responding")
 })
 
+router.post('/logout', Auth, async (req, res) => {
+    console.log("Logout is responding..............")
+    try {
+        req.user.token = [];
+        await req.user.save();
+        res.send();
+    } catch (error) {
+        res.status(500).send();
+    }
+})
+
 
 module.exports = router;

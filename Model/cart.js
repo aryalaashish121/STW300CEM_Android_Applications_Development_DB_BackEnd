@@ -1,21 +1,17 @@
-
+const mongoose = require('mongoose');
 const CartSchema = mongoose.Schema({
 
-    productName: {
+    ProductID: {
         type: String
     },
-    productPrice: {
+    userID: {
+        type: String
+    },
+    Quantity: {
         type: Number
     },
-    Image: {
-        type: String
-    },
-    productDescription: {
-        type: String
-    },
-    productType: {
-        type: String
+    date: {
+        type: Date
     }
-
 })
 module.exports = mongoose.model("cart", CartSchema)

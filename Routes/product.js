@@ -7,6 +7,8 @@ const multer = require("multer");
 const path = require('path');
 
 
+
+
 //image upload
 var storage = multer.diskStorage({
     destination: "images",
@@ -77,7 +79,19 @@ router.post("/addProducts", (req, res) => {
     res.send("product added sucessfully")
 })
 
-router.get('/displayProduct', (req, res) => {
+router.get('/displayProduct/:id', (req, res) => {
+    console.log("Responding.............");
+    pt = req.params.id.toString();
+    products.find({ productType: pt }).then(function (arrivalsdata) {
+        res.send(arrivalsdata);
+        console.log(arrivalsdata);
+    }).catch(function (e) {
+        res.send(e)
+    });
+
+})
+
+router.get('/displayAllProduct', (req, res) => {
     console.log("Responding.............");
     products.find().then(function (arrivalsdata) {
         res.send(arrivalsdata);
@@ -88,28 +102,31 @@ router.get('/displayProduct', (req, res) => {
 
 })
 
-router.get('/dispalDell/:id', (req, res) => {
+
+router.get('/dispalDell/:id/:id2', (req, res) => {
     productbrand = req.params.id.toString();
-    console.log("dell data clicked..")
+    pt = req.params.id2.toString();
+    console.log("option data clicked.." + productbrand + "product type" + pt)
 
-    products.find({ productBrand: productbrand }).then(function (dellproduct) {
-        res.send(dellproduct);
-        console.log("dellproduct" + dellproduct);
+    products.find({ productBrand: productbrand, productType: pt }).then(function (product) {
+        res.send(product);
+        console.log("products" + product);
     }).catch(function (e) {
         res.send(e)
     });
 })
 
-router.get('/displayhp', (req, res) => {
-    console.log("hp data clicked..")
-    var productbrand = "hp";
-    products.find({ productBrand: productbrand }).then(function (hpproduct) {
-        res.send(hpproduct);
-        console.log("hp" + hpproduct);
+router.get('/displayByProductBrandOnly/:id', (req, res) => {
+    productbrand = req.params.id.toString();
+    console.log("data clicked.." + productbrand)
+    products.find({ productBrand: productbrand, }).then(function (product) {
+        res.send(product);
+        console.log("products" + product);
     }).catch(function (e) {
         res.send(e)
     });
 })
+
 
 
 //update product data
@@ -164,7 +181,16 @@ router.delete('/deletespecificProduct/:id', function (req, res) {
     })
 })
 
-
+//search code
+router.get('/search', (req, res) => {
+    var query = { productBrand: "dell" }
+    products.find({ productDescription: /^dell/ }).then(function (searchedproduct) {
+        res.send(searchedproduct);
+        console.log("dellproduct" + searchedproduct);
+    }).catch(function (e) {
+        res.send(e)
+    });
+})
 
 
 //check server respond..
