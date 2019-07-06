@@ -36,7 +36,8 @@ const productSchema = mongoose.Schema({
     },
     auxiliaryImage:{
         type:String
-    },
+    }
+    
 });
 
 module.exports = mongoose.model("products",productSchema)

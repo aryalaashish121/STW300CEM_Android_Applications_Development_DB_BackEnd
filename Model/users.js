@@ -28,6 +28,9 @@ const userSchema = new mongoose.Schema({
     userAddress2:{
         type:String
     },
+    userPhone:{
+        type:String
+    },
     tokens:[{
         token:{
             type:String,

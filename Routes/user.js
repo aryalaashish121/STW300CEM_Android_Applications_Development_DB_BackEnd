@@ -37,6 +37,7 @@ var upload = multer({
 });
 
 router.post('/uploadUserImage', upload.single('imageFile'), (req, res) => {
+    console.log("Image upload code responding");
     res.send(req.file);
     console.log(req.file);
 
@@ -44,6 +45,7 @@ router.post('/uploadUserImage', upload.single('imageFile'), (req, res) => {
 
 //user registration//
 router.post("/userRegistration", (req, res) => {
+    console.log("User reigistration kicking...")
     console.log(req.body)
     var userName = req.body.userName;
     var userEmail = req.body.userEmail;
@@ -53,6 +55,7 @@ router.post("/userRegistration", (req, res) => {
     var postal = req.body.postal;
     var userAddress1 = req.body.userAddress1;
     var userAddress2 = req.body.userAddress2;
+    var userPhone = req.body.userPhone;
 
     var newuser = new User(
         {
@@ -63,7 +66,8 @@ router.post("/userRegistration", (req, res) => {
             "city": city,
             "postal": postal,
             "userAddress1": userAddress1,
-            "userAddress2": userAddress2
+            "userAddress2": userAddress2,
+            "userPhone": userPhone
         }
     )
     console.log("Request------>" + newuser);
@@ -86,6 +90,7 @@ router.post("/userLogin", async function (req, res) {
     // });
     var askeduserName = req.body.username;
     var askeduserPassword = req.body.password;
+    console.log(askeduserName + " - username data")
     const users = await User.checkCredentialsDb(askeduserName, askeduserPassword);
 
     if (users != null) {
@@ -126,7 +131,7 @@ router.get('/getUserById/:id', function (req, res) {
     uid = req.params.id.toString();
     console.log(uid);
     User.findById(uid).then(function (user) {
-        res.send(user);
+        res.json(user);
         console.log(user);
     }).catch(function (e) {
         res.send(e)
@@ -136,7 +141,7 @@ router.get('/getUserById/:id', function (req, res) {
 
 //user dashboard
 router.get('/getSpecificUser', Auth, function (req, res) {
-    res.send(req.user);
+    res.json(req.user);
     console.log(req.user);
 });
 
@@ -151,6 +156,22 @@ router.put('/updateUser/:id', function (req, res) {
         res.send();
     }).catch(function (e) {
         console.log("error is updating..")
+    })
+});
+
+//updating from android
+router.put('/updateUserMobile', function (req, res) {
+    console.log("update specific user kiking...")
+    console.log("user id...................................................................." + uid)
+    console.log(req.body);
+
+    var uid = req.body._id;
+    console.log(uid)
+    User.findByIdAndUpdate({ _id: uid }, req.body).then(function () {
+        console.log("Product updated successfully.")
+        res.send();
+    }).catch(function (e) {
+        console.log("error in updating..")
     })
 });
 
