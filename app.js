@@ -19,11 +19,12 @@ app.use(express.static('./images'));
 const userRoute = require('./Routes/user');
 const productRoute = require('./Routes/product');
 const newarrivalsRoute = require('./Routes/newarrivals');
-const cartRoute = require('./Routes/cart');
+const orderRoute = require('./Routes/order');
 
 //app.use('/cart', cartRoute);
 app.use('/user', userRoute);
 app.use('/product', productRoute);
 app.use('/newarrivals', newarrivalsRoute);
+app.use('/order', orderRoute);
 
 module.exports = app;
