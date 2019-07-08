@@ -14,8 +14,8 @@ router.post("/addToCart", (req, res) => {
     console.log("Cart responding...");
     var productID = req.body.productID;
     var userID = req.body.userID;
-    var orderedTime = req.body.dateadded;
-    var quantity = 1;
+    var orderedTime = req.body.date;
+    var quantity = req.body.quantity;
 
     var newCart = new cart(
         {
@@ -37,11 +37,16 @@ router.post("/addToCart", (req, res) => {
     })
 })
 router.put('/updateCart/:id', function (req, res) {
-    console.log("update specific cart quantity kiking...")
+    console.log("update specific cart quantity kicking...")
     uid = req.params.id.toString();
     console.log("user id...................................................................." + uid)
-    console.log(req.body);
-    cart.findByIdAndUpdate({ userID: uid }, req.body).then(function () {
+    // console.log(req.body);
+    var q = req.body.quantity
+    var newcart = new cart({
+        "quantity": req.body.quantity
+    })
+    console.log(newcart);
+    cart.findByIdAndUpdate({ _id: uid }, { quantity: req.body.quantity }).then(function () {
         console.log("cart updated.")
         res.send();
     }).catch(function (e) {

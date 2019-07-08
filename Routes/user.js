@@ -195,12 +195,17 @@ router.post('/logout', Auth, async (req, res) => {
         res.status(500).send()
     }
 })
+//logout code
+router.get('/logout2', function (req, res) {
+    res.status(200).send({ Auth: false, token: null });
+});
 
 
 //logout from all devices
-router.post('/users/logoutAll', Auth, async (req, res) => {
+router.post('/logoutAll', Auth, async (req, res) => {
+    console.log(req.user)
     try {
-        req.user.tokens = []
+        req.user.tokens = [];
         await req.user.save()
         res.send()
     } catch (e) {

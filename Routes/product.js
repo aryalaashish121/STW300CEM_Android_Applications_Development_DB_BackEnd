@@ -95,7 +95,7 @@ router.get('/displayAllProduct', (req, res) => {
     console.log("Responding.............");
     products.find().then(function (arrivalsdata) {
         res.send(arrivalsdata);
-        console.log(arrivalsdata);
+        // console.log(arrivalsdata);
     }).catch(function (e) {
         res.send(e)
     });

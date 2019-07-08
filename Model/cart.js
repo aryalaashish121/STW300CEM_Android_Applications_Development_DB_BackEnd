@@ -11,7 +11,7 @@ const CartSchema = mongoose.Schema({
         type: Date
     },
     quantity: {
-        type: Number
+        type: String
     }
 })
 module.exports = mongoose.model("cart", CartSchema)
