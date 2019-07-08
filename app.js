@@ -20,11 +20,15 @@ const userRoute = require('./Routes/user');
 const productRoute = require('./Routes/product');
 const newarrivalsRoute = require('./Routes/newarrivals');
 const orderRoute = require('./Routes/order');
+const cartRoute = require('./Routes/cart');
+const deliveryRoute = require('./Routes/delivery');
 
 //app.use('/cart', cartRoute);
 app.use('/user', userRoute);
 app.use('/product', productRoute);
 app.use('/newarrivals', newarrivalsRoute);
 app.use('/order', orderRoute);
+app.use('/cart', cartRoute);
+app.use('/delivery', deliveryRoute);
 
 module.exports = app;

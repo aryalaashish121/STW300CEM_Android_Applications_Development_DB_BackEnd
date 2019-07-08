@@ -181,16 +181,31 @@ router.get('/respond', function (req, res) {
     console.log("responding")
 })
 
+
+//logout from one device
 router.post('/logout', Auth, async (req, res) => {
-    console.log("Logout is responding..............")
+    console.log("User Logout is responding..................with token " + tokens)
     try {
-        req.user.token = [];
-        await req.user.save();
-        res.send();
-    } catch (error) {
-        res.status(500).send();
+        req.user.tokens = req.user.tokens.filter((token) => {
+            return token.token !== req.token
+        })
+        await req.user.save()
+        res.send()
+    } catch (e) {
+        res.status(500).send()
     }
 })
 
+
+//logout from all devices
+router.post('/users/logoutAll', Auth, async (req, res) => {
+    try {
+        req.user.tokens = []
+        await req.user.save()
+        res.send()
+    } catch (e) {
+        res.status(500).send()
+    }
+})
 
 module.exports = router;

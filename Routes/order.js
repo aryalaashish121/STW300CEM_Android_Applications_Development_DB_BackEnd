@@ -36,5 +36,33 @@ router.post("/addOrders", (req, res) => {
     })
 });
 
+router.get('/orderDetails/:id', (req, res) => {
+
+    uid = req.params.id.toString();
+    console.log("order details Item kicking ............................... with userid" + uid)
+    console.log(uid);
+    order.find({ userID: uid }).then(function (cartData) {
+        res.json(cartData);
+        console.log("order values " + cartData);
+    }).catch(function (e) {
+        res.send(e)
+    });
+
+})
+
+router.get('/getAllOrder', function (req, res) {
+    console.log("Order list ......Responding.............");
+    order.find().then(function (arrivalsdata) {
+        res.send(arrivalsdata);
+        console.log(arrivalsdata);
+    }).catch(function (e) {
+        res.send(e)
+    });
+})
+
+router.post('/delivered', function (req, res) {
+
+})
+
 
 module.exports = router;

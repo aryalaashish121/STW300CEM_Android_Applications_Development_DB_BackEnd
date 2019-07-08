@@ -144,8 +144,8 @@ router.put('/updateProducts/:id', function (req, res) {
 
 //get specific product
 router.get('/getSpecificProduct/:id', function (req, res) {
-    console.log("Get spcific product kicking ...............................")
     pid = req.params.id.toString();
+    console.log("Get spcific product kicking ............................with product id..." + pid);
     console.log(pid);
     products.findById(pid).then(function (product) {
         res.send(product);
