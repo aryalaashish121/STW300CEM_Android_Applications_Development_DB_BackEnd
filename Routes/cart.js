@@ -60,6 +60,17 @@ router.get('/deleteCart', function (req, res) {
         console.log("Error")
     })
 })
+router.post('/deleteCartItem/:id', function (req, res) {
+    console.log("Delete specific cart item is kicking ...............................")
+    cartid = req.params.id.toString();
+    console.log(cartid);
+    cart.findByIdAndDelete({ _id: cartid }).then(function () {
+        res.send();
+        console.log("Data deleted")
+    }).catch(function (e) {
+        res.send(e)
+    });
+})
 router.get('/cartDetails/:id', (req, res) => {
     console.log("Get Cart Item kicking ...............................")
     uid = req.params.id.toString();
@@ -70,6 +81,8 @@ router.get('/cartDetails/:id', (req, res) => {
     }).catch(function (e) {
         res.send(e)
     });
+
+
 
 })
 
