@@ -1,13 +1,20 @@
-# Your Project Title Here
-Name: Your Full Name
 
-CollegeID: Your College ID
+#Pcworld: Online E-commerce for computers
+Name: Aashish Aryal
 
-Batch: Jan19A/B/C/D?
+CollegeID: 160313
+Coventry ID: 9635119
+Batch: 19D
 
-Brief description of the domain of your project!
+PcworlD Pr
+Aims of project
+	To develop a web based application to provide the quicker, easier and cost effective shopping experience to the consumers.
+	To remove all the issue that are faced during physical market shopping.
+	To provide easy comparison to the products they want.
+
 
 ## List of Main Features
+
 List out 3/4 main technical features of your project
 
 ## API Documentation
